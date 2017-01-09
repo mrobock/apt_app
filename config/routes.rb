@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :apartments do
     get 'map_location'
+    get 'map_locations', on: :collection
   end
+  #get '/apartments/map_locations' => 'apartments#map_locations'
   root 'apartments#page'
 
   # The priority is based upon order of creation: first created -> highest priority.
