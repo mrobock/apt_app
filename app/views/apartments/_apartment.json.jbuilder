@@ -1,0 +1,2 @@
+json.extract! apartment, :id, :address_1, :address_2, :city, :zip, :state, :country, :name, :phone, :contact_hrs_from, :contact_hrs_to, :created_at, :updated_at
+json.url apartment_url(apartment, format: :json)
