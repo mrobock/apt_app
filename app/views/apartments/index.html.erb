@@ -15,6 +15,8 @@
       <th>Phone</th>
       <th>Contact hrs from</th>
       <th>Contact hrs to</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -32,6 +34,8 @@
         <td><%= apartment.phone %></td>
         <td><%= apartment.contact_hrs_from %></td>
         <td><%= apartment.contact_hrs_to %></td>
+        <td><%= apartment.latitude %></td>
+        <td><%= apartment.longitude %></td>
         <td><%= link_to 'Show', apartment %></td>
         <td><%= link_to 'Edit', edit_apartment_path(apartment) %></td>
         <td><%= link_to 'Destroy', apartment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -15,9 +15,9 @@ RSpec.feature "AddApartments", type: :feature do
       end
       Then "I can go make a new apartment" do
         visit "/apartments/new"
-        fill_in "apartment[address_1]", with: "701 j st"
+        fill_in "apartment[address_1]", with: "704 J St"
         fill_in "apartment[address_2]", with: "Apt 1"
-        fill_in "apartment[city]", with: "san diego"
+        fill_in "apartment[city]", with: "San Diego"
         fill_in "apartment[zip]", with: 92127
         fill_in "apartment[state]", with: "CA"
         fill_in "apartment[country]", with: "USA"
@@ -30,7 +30,8 @@ RSpec.feature "AddApartments", type: :feature do
         click_button "Create Apartment"
 
         expect(page).to have_content("Apartment was successfully created")
-        expect(page).to have_content("Apt 2")
+        expect(page).to have_content("32.7096005")
+        expect(page).to have_content("-117.1580002")
 
       end
     end
