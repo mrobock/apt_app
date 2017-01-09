@@ -30,5 +30,6 @@ RSpec.describe Apartment, type: :model do
     expect(a2.phone).to eq "(619)555-5555"
     expect(a2.contact_hrs_from).to eq a1.contact_hrs_from
     expect(a2.contact_hrs_to).to eq a1.contact_hrs_to
+    expect(a2.full_address).to eq "123 Main St, San Diego, CA, USA"
   end
 end
