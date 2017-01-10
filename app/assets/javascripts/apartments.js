@@ -1,3 +1,26 @@
+function placeMarkers(data, markers) {
+  markers = handler.addMarkers(data);
+  handler.bounds.extendWith(markers);
+  handler.fitMapToBounds();
+}
+
+function showLocations(dataFromServer) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      markers = [];
+      dataFromServer[dataFromServer.length] = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+        infowindow: "You!"
+      };
+      placeMarkers(dataFromServer, markers);
+    });
+  } else {
+    alert("Geolocation is not available");
+    placeMarkers(dataFromServer, markers);
+  }
+}
+
 function createGmap(data) {
   handler = Gmaps.build('Google');
   handler.buildMap({
@@ -5,10 +28,11 @@ function createGmap(data) {
     internal: {id: 'apartment_map'}
   },
     function() {
-      markers = handler.addMarkers(data);
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
-      handler.getMap().setZoom(12);
+      // markers = handler.addMarkers(data);
+      showLocations(data);
+      // handler.bounds.extendWith(markers);
+      // handler.fitMapToBounds();
+      // handler.getMap().setZoom(12);
     }
   );
 };
@@ -33,5 +57,5 @@ function loadAndCreateGmap() {
   }
 };
 
-$(document).on('ready', loadAndCreateGmap);
+//$(document).on('ready', loadAndCreateGmap);
 $(document).on('turbolinks:load', loadAndCreateGmap);
