@@ -1,10 +1,17 @@
 Rails.application.routes.draw do
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+  devise_scope :user do
+    root "apartments#page"
+  end
   resources :apartments do
     get 'map_location'
     get 'map_locations', on: :collection
   end
   #get '/apartments/map_locations' => 'apartments#map_locations'
-  root 'apartments#page'
+  #root 'apartments#page'
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

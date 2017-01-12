@@ -1,5 +1,6 @@
 class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:page, :index, :show, :map_location, :map_locations] #add this line
 
   def page
   end
@@ -36,17 +37,23 @@ class ApartmentsController < ApplicationController
 
   # GET /apartments/new
   def new
-    @apartment = Apartment.new
+    @apartment = current_user.apartments.build
   end
+  #100 Park Blvd, San Diego, CA 92101
 
   # GET /apartments/1/edit
   def edit
+    if @apartment.user == current_user
+      render
+    else
+      redirect_to apartments_path, notice: "Wrong!"
+    end
   end
 
   # POST /apartments
   # POST /apartments.json
   def create
-    @apartment = Apartment.new(apartment_params)
+    @apartment = current_user.apartments.build(apartment_params)
 
     respond_to do |format|
       if @apartment.save
@@ -76,10 +83,14 @@ class ApartmentsController < ApplicationController
   # DELETE /apartments/1
   # DELETE /apartments/1.json
   def destroy
-    @apartment.destroy
-    respond_to do |format|
-      format.html { redirect_to apartments_url, notice: 'Apartment was successfully destroyed.' }
-      format.json { head :no_content }
+    if @apartment.user == current_user
+      @apartment.destroy
+      respond_to do |format|
+        format.html { redirect_to apartments_url, notice: 'Apartment was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to apartments_path, notice: "Wrong!"
     end
   end
 
