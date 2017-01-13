@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'admin/index'
-
-  get 'admin/update'
-
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   # devise_scope :user do
@@ -15,14 +11,8 @@ Rails.application.routes.draw do
 
   get "admin" => "admin#index"
   put 'admin/:id' => 'admin#update'
-  patch 'admin/:id' => 'admin#update' 
+  patch 'admin/:id' => 'admin#update'
   root "apartments#page"
-
-  #get '/apartments/map_locations' => 'apartments#map_locations'
-  #root 'apartments#page'
-
-
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
