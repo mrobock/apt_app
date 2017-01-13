@@ -1,13 +1,23 @@
 Rails.application.routes.draw do
+  get 'admin/index'
+
+  get 'admin/update'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
-  devise_scope :user do
-    root "apartments#page"
-  end
+  # devise_scope :user do
+  # end
+
   resources :apartments do
     get 'map_location'
     get 'map_locations', on: :collection
   end
+
+  get "admin" => "admin#index"
+  put 'admin/:id' => 'admin#update'
+  patch 'admin/:id' => 'admin#update' 
+  root "apartments#page"
+
   #get '/apartments/map_locations' => 'apartments#map_locations'
   #root 'apartments#page'
 

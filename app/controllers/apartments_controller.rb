@@ -2,12 +2,25 @@ class ApartmentsController < ApplicationController
   before_action :set_apartment, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:page, :index, :show, :map_location, :map_locations] #add this line
 
+  load_and_authorize_resource
+  skip_authorize_resource only: [:page, :map_location, :map_locations]
+
   def page
   end
   # GET /apartments
   # GET /apartments.json
   def index
-    @apartments = Apartment.all
+    if !user_signed_in?
+      @ability = Ability.new(User.new())
+    else
+      @ability = Ability.new(current_user)
+    end
+
+    if !user_signed_in? || (@ability.can? :manage, Apartment)
+      @apartments = Apartment.all
+    else
+      @apartments = Apartment.where(user_id: current_user.id)
+    end
   end
 
   # GET /apartments/1
@@ -26,7 +39,16 @@ class ApartmentsController < ApplicationController
   end
 
   def map_locations
-    @apartments = Apartment.all
+    if !user_signed_in?
+      @ability = Ability.new(User.new())
+    else
+      @ability = Ability.new(current_user)
+    end
+    if !user_signed_in? || (@ability.can? :manage, Apartment)
+      @apartments = Apartment.all
+    else
+      @apartments = Apartment.where(user_id: current_user.id)
+    end
     @hash = Gmaps4rails.build_markers(@apartments) do |apartment, marker|
       marker.lat(apartment.latitude)
       marker.lng(apartment.longitude)
@@ -40,6 +62,9 @@ class ApartmentsController < ApplicationController
     @apartment = current_user.apartments.build
   end
   #100 Park Blvd, San Diego, CA 92101
+  #Address: 1 Royal Way, Kansas City, MO 64129
+  # 700 Clark Ave, St. Louis, MO 63102
+
 
   # GET /apartments/1/edit
   def edit

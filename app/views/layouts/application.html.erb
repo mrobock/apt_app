@@ -10,6 +10,13 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <p>
+    <% if !current_user.nil? %>
+      User: <%= current_user.email %>
+      Roles:
+      (<%= current_user.roles.pluck(:name).join(", ") %>)
+    <% end %>
+  </p>
   <p><%= notice %></p>
   <p><%= alert %></p>
 <%= render '/layouts/header' %>
